@@ -1,0 +1,17 @@
+.home-hero {
+  text-align: center;
+  padding-top: 22vh;
+}
+
+.home-hero h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  margin: 0 0 1rem 0;
+}
+
+.home-hero p {
+  color: #888;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+}

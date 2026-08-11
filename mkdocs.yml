@@ -1,0 +1,45 @@
+site_name: 钝角的日常
+site_description: 钝角的个人网站，记录日常、课程、工作与生活。
+site_url: https://example.com
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - scheme: default
+      primary: white
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: 切换到深色模式
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: 切换到浅色模式
+  features:
+    - navigation.instant
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+nav:
+  - 主页: index.md
+  - 课程:
+      - 课程首页: course/index.md
+      - 示例文章: course/example.md
+  - 友链: friends/index.md
+  - 工作: about/index.md
+  - 游戏: game/index.md
+  - 生活: life/index.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true

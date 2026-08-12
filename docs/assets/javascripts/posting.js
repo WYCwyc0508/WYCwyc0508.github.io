@@ -366,6 +366,28 @@
     loadComments();
   }
 
+  var secretToggle = document.querySelector(".secret-toggle");
+  if (secretToggle) {
+    var secretForm = document.querySelector(".secret-form");
+    var secretLink = document.querySelector(".secret-link");
+    var secretMsg = secretForm.querySelector(".secret-msg");
+    secretToggle.addEventListener("click", function () {
+      secretForm.hidden = !secretForm.hidden;
+    });
+    secretForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var value = secretForm.querySelector("input").value.trim();
+      if (value === b64decode(CONFIG.password)) {
+        secretForm.hidden = true;
+        secretToggle.hidden = true;
+        secretLink.hidden = false;
+      } else {
+        secretMsg.textContent = "密码错误";
+        secretMsg.className = "secret-msg secret-msg-error";
+      }
+    });
+  }
+
   var widgets = document.querySelectorAll("[data-section]");
   for (var i = 0; i < widgets.length; i++) {
     buildWidget(widgets[i]);

@@ -13,5 +13,14 @@ hide:
     <a class="hero-btn hero-btn-primary" href="life/">逛逛生活</a>
     <a class="hero-btn hero-btn-ghost" href="course/">看看课程</a>
   </div>
+  <div class="secret-entry">
+    <button class="secret-toggle" type="button" title="···">···</button>
+    <form class="secret-form" hidden>
+      <input type="password" placeholder="输入密码" autocomplete="off">
+      <button type="submit">确认</button>
+      <span class="secret-msg"></span>
+    </form>
+    <a class="secret-link" href="game/" hidden>进入游戏页</a>
+  </div>
 </div>
 

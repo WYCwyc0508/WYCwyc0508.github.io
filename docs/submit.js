@@ -3,7 +3,7 @@
     repo: "WYCwyc0508/WYCwyc0508.github.io",
     branch: "main",
     password: "MjAwNjA1MDh3eWM=",
-    token: "Z2l0aHViX3BhdF8xMUNGVVFVVUkwTFR4Z0todmozTkIzX2tKd0g5akFacG5XWUNYdDY0MVVab1hleGt3UUhVT3VHSkQyZXA2YkhBSUwyRVlSMkFTV0xtUTV0dnJG",
+    token: "{{POST_TOKEN}}",
     postDir: "docs/blog/posts",
     assetDir: "docs/blog/assets"
   };

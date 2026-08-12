@@ -5,7 +5,11 @@ body {
     url("../images/bg.jpg") center / cover no-repeat fixed;
 }
 
-[data-md-color-scheme="slate"] body {
+[data-md-color-scheme="slate"] body:not(.is-home) {
+  background: #000;
+}
+
+[data-md-color-scheme="slate"] body.is-home {
   background:
     linear-gradient(rgba(13, 16, 26, 0.86), rgba(13, 16, 26, 0.86)),
     url("../images/bg.jpg") center / cover no-repeat fixed;
@@ -36,8 +40,8 @@ body {
 }
 
 [data-md-color-scheme="slate"] .md-header {
-  background: rgba(13, 18, 32, 0.72);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.82);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .md-main,
@@ -90,7 +94,9 @@ body {
 [data-md-color-scheme="slate"] {
   --md-typeset-a-color: #a5b4fc;
   --md-primary-fg-color--on-primary: #ffffff;
-  --md-primary-fg-color: #1e2440;
+  --md-primary-fg-color: #000000;
+  --md-default-bg-color: #000000;
+  --md-code-bg-color: #161616;
 }
 
 .md-typeset a {

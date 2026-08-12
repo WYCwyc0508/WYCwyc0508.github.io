@@ -5,6 +5,9 @@ site_url: https://dunjiao.top
 theme:
   name: material
   language: zh
+  font: false
+  favicon: assets/images/logo.svg
+  logo: assets/images/logo.svg
   palette:
     - scheme: default
       primary: white
@@ -32,6 +35,8 @@ extra_javascript:
 
 plugins:
   - search
+
+copyright: Copyright © 2026 钝角 — 用 <a href="https://www.mkdocs.org">MkDocs</a> 构建
 
 nav:
   - 主页: index.md

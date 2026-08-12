@@ -1,11 +1,14 @@
 body {
   font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC", system-ui, -apple-system, sans-serif;
-  background: linear-gradient(150deg, #f4f6ff 0%, #edf1fe 40%, #fbeefd 100%);
-  background-attachment: fixed;
+  background:
+    linear-gradient(rgba(246, 248, 255, 0.62), rgba(246, 248, 255, 0.62)),
+    url("../images/bg.jpg") center / cover no-repeat fixed;
 }
 
 [data-md-color-scheme="slate"] body {
-  background: linear-gradient(150deg, #10131a 0%, #14182a 40%, #191226 100%);
+  background:
+    linear-gradient(rgba(13, 16, 26, 0.86), rgba(13, 16, 26, 0.86)),
+    url("../images/bg.jpg") center / cover no-repeat fixed;
 }
 
 ::selection {
@@ -132,7 +135,7 @@ body {
   position: relative;
   overflow: hidden;
   text-align: center;
-  padding: 5.5rem 0 3.5rem;
+  padding: 6rem 0 4rem;
 }
 
 .hero-blob {
@@ -249,93 +252,6 @@ body {
 @keyframes gradientShift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
-}
-
-.section-cards {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.2rem;
-  margin: 3rem 0 1rem;
-}
-
-.section-card {
-  display: block;
-  padding: 1.6rem 1.4rem;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.66);
-  border: 1px solid rgba(99, 102, 241, 0.14);
-  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.07);
-  backdrop-filter: blur(10px);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  text-decoration: none !important;
-}
-
-.section-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 32px rgba(79, 70, 229, 0.16);
-}
-
-[data-md-color-scheme="slate"] .section-card {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.14);
-}
-
-.section-card h3 {
-  margin: 0.8rem 0 0.3rem;
-  font-size: 1.15rem;
-  color: var(--md-default-fg-color);
-}
-
-.section-card p {
-  margin: 0;
-  color: #6b7280;
-  font-size: 0.9rem;
-}
-
-[data-md-color-scheme="slate"] .section-card p {
-  color: #aeb6cc;
-}
-
-[data-md-color-scheme="slate"] .section-card h3 {
-  color: #eef1f8;
-}
-
-.section-card-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-}
-
-.section-card-icon svg {
-  width: 22px;
-  height: 22px;
-}
-
-.card-indigo {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-}
-
-.card-violet {
-  background: linear-gradient(135deg, #8b5cf6, #d946ef);
-}
-
-.card-pink {
-  background: linear-gradient(135deg, #ec4899, #f43f5e);
-}
-
-.card-cyan {
-  background: linear-gradient(135deg, #06b6d4, #3b82f6);
-}
-
-.card-amber {
-  background: linear-gradient(135deg, #f59e0b, #f97316);
 }
 
 .error-page {

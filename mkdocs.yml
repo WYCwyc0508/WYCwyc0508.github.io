@@ -33,7 +33,8 @@ nav:
   - 主页: index.md
   - 课程:
       - 课程首页: course/index.md
-      - 示例文章: course/example.md
+      - 经济法: course/jingjifa/index.md
+      - 宪法: course/xianfa/index.md
   - 美食: food/index.md
   - 工作: about/index.md
   - 生活: life/index.md

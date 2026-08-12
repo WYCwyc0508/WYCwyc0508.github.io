@@ -63,3 +63,120 @@
 .submit-status-error {
   color: var(--md-typeset-color);
 }
+
+.sw-posts,
+.sw-comments {
+  margin: 1rem 0;
+}
+
+.sw-post-list {
+  list-style: none;
+  padding: 0;
+}
+
+.sw-post-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.sw-date {
+  color: #888;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.sw-empty {
+  color: #888;
+}
+
+.sw-post-form summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.sw-post-form form,
+.sw-comment-form {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 6px;
+}
+
+.sw-post-form label,
+.sw-comment-form label {
+  display: block;
+  margin: 0.8rem 0 0.2rem 0;
+  font-weight: 600;
+}
+
+.sw-post-form input[type="text"],
+.sw-post-form input[type="password"],
+.sw-post-form textarea,
+.sw-comment-form input[type="text"],
+.sw-comment-form textarea {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 6px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  font-size: 1rem;
+}
+
+.sw-post-form textarea,
+.sw-comment-form textarea {
+  resize: vertical;
+}
+
+.sw-post-form button,
+.sw-comment-form button {
+  margin-top: 1rem;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--md-primary-fg-color);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.sw-post-form button:disabled,
+.sw-comment-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sw-status {
+  margin-top: 0.8rem;
+  font-weight: 600;
+  color: var(--md-primary-fg-color);
+}
+
+.sw-status-error {
+  color: #d32f2f;
+}
+
+.sw-comment {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.sw-comment-name {
+  font-weight: 700;
+}
+
+.sw-comment-time {
+  margin-left: 0.6rem;
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.sw-comment p {
+  margin: 0.3rem 0 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

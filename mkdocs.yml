@@ -19,7 +19,6 @@ theme:
         icon: material/weather-sunny
         name: 切换到浅色模式
   features:
-    - navigation.instant
     - navigation.expand
     - navigation.top
     - search.suggest
@@ -28,16 +27,14 @@ theme:
 extra_css:
   - assets/stylesheets/extra.css
 
+extra_javascript:
+  - assets/javascripts/posting.js
+
 plugins:
   - search
-  - blog:
-      blog_dir: blog
-      post_dir: "{blog}/posts"
 
 nav:
   - 主页: index.md
-  - 博客: blog/index.md
-  - 投稿: submit.md
   - 课程:
       - 课程首页: course/index.md
       - 示例文章: course/example.md

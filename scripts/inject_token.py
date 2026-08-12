@@ -2,7 +2,7 @@ import base64
 import os
 import sys
 
-path = "site/submit.js"
+path = "site/assets/javascripts/posting.js"
 placeholder = '"{{POST_TOKEN}}"'
 token = os.environ.get("POST_TOKEN", "")
 

@@ -1,8 +1,4 @@
 (function () {
-  if (location.pathname === "/" || location.pathname === "/index.html") {
-    document.body.classList.add("is-home");
-  }
-
   var CONFIG = {
     repo: "WYCwyc0508/WYCwyc0508.github.io",
     branch: "main",

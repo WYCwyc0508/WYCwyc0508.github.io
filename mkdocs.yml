@@ -12,15 +12,6 @@ theme:
     - scheme: default
       primary: white
       accent: indigo
-      toggle:
-        icon: material/weather-night
-        name: 切换到深色模式
-    - scheme: slate
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/weather-sunny
-        name: 切换到浅色模式
   features:
     - navigation.expand
     - navigation.top

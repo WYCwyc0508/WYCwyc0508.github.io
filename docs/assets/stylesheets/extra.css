@@ -5,7 +5,7 @@ body {
 }
 
 [data-md-color-scheme="slate"] body {
-  background: linear-gradient(150deg, #0d1220 0%, #141a2e 40%, #1d1030 100%);
+  background: linear-gradient(150deg, #10131a 0%, #14182a 40%, #191226 100%);
 }
 
 ::selection {
@@ -86,6 +86,8 @@ body {
 
 [data-md-color-scheme="slate"] {
   --md-typeset-a-color: #a5b4fc;
+  --md-primary-fg-color--on-primary: #ffffff;
+  --md-primary-fg-color: #1e2440;
 }
 
 .md-typeset a {
@@ -176,7 +178,15 @@ body {
   margin: 0 0 1rem 0;
   font-size: 3.2rem;
   line-height: 1.2;
-  background: linear-gradient(120deg, #4f46e5, #a855f7 55%, #ec4899);
+  background: linear-gradient(120deg, #4338ca, #7c3aed 55%, #db2777);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+[data-md-color-scheme="slate"] .hero h1.hero-title,
+[data-md-color-scheme="slate"] .error-code {
+  background: linear-gradient(120deg, #a5b4fc, #c4b5fd 55%, #f9a8d4);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -185,12 +195,12 @@ body {
 .hero-sub {
   position: relative;
   z-index: 1;
-  color: #6b7280;
+  color: #4b5563;
   letter-spacing: 0.12em;
 }
 
 [data-md-color-scheme="slate"] .hero-sub {
-  color: #9ca3af;
+  color: #aeb6cc;
 }
 
 .hero-actions {
@@ -232,7 +242,8 @@ body {
 }
 
 [data-md-color-scheme="slate"] .hero-btn-ghost {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 @keyframes gradientShift {
@@ -267,8 +278,8 @@ body {
 }
 
 [data-md-color-scheme="slate"] .section-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
 .section-card h3 {
@@ -284,7 +295,11 @@ body {
 }
 
 [data-md-color-scheme="slate"] .section-card p {
-  color: #9ca3af;
+  color: #aeb6cc;
+}
+
+[data-md-color-scheme="slate"] .section-card h3 {
+  color: #eef1f8;
 }
 
 .section-card-icon {
@@ -364,7 +379,7 @@ body {
 }
 
 .sw-date {
-  color: #888;
+  color: #6b7280;
   font-size: 0.85rem;
   white-space: nowrap;
   background: rgba(99, 102, 241, 0.08);
@@ -372,8 +387,17 @@ body {
   padding: 0.15rem 0.7rem;
 }
 
+[data-md-color-scheme="slate"] .sw-date {
+  color: #c3c9db;
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .sw-empty {
   color: #888;
+}
+
+[data-md-color-scheme="slate"] .sw-empty {
+  color: #a5adc2;
 }
 
 .sw-post-form summary {
@@ -394,8 +418,8 @@ body {
 
 [data-md-color-scheme="slate"] .sw-post-form form,
 [data-md-color-scheme="slate"] .sw-comment-form {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .sw-post-form label,
@@ -472,6 +496,10 @@ body {
   color: #d32f2f;
 }
 
+[data-md-color-scheme="slate"] .sw-status-error {
+  color: #f87171;
+}
+
 .sw-comment {
   padding: 0.9rem 1rem;
   margin-bottom: 0.6rem;
@@ -481,7 +509,18 @@ body {
 }
 
 [data-md-color-scheme="slate"] .sw-comment {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+[data-md-color-scheme="slate"] .sw-comment-name {
+  background: linear-gradient(120deg, #a5b4fc, #f9a8d4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+[data-md-color-scheme="slate"] .sw-comment-time {
+  color: #a5adc2;
 }
 
 .sw-comment-name {

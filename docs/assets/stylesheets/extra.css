@@ -289,16 +289,6 @@ body {
   font-weight: 600;
 }
 
-.sw-post-locked {
-  margin: 1rem 0;
-  padding: 0.8rem 1rem;
-  color: #888;
-  font-size: 0.9rem;
-  border: 1px dashed rgba(99, 102, 241, 0.35);
-  border-radius: 12px;
-  background: rgba(99, 102, 241, 0.06);
-}
-
 .secret-link[hidden] {
   display: none;
 }

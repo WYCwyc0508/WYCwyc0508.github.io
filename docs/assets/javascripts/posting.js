@@ -184,7 +184,7 @@
           "<div class='sw-status'></div>" +
           "</form>" +
           "</details>"
-        : "<p class='sw-post-locked'>投稿入口已隐藏,请在主页点击【···】输入密码解锁后发表</p>") +
+        : "") +
       "<h2>评论</h2>" +
       "<div class='sw-comments'></div>" +
       "<form class='sw-comment-form'>" +

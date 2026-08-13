@@ -31,6 +31,22 @@
     return String(n).padStart(2, "0");
   }
 
+  var UNLOCK_KEY = "site_post_unlocked";
+
+  function isUnlocked() {
+    try {
+      return localStorage.getItem(UNLOCK_KEY) === "1";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function setUnlocked() {
+    try {
+      localStorage.setItem(UNLOCK_KEY, "1");
+    } catch (e) {}
+  }
+
   function today() {
     var d = new Date();
     return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
@@ -157,17 +173,18 @@
     widget.innerHTML =
       "<h2>文章</h2>" +
       "<div class='sw-posts'></div>" +
-      "<details class='sw-post-form'>" +
-      "<summary>发表文章(需要密码)</summary>" +
-      "<form>" +
-      "<label>密码</label><input type='password' name='password' autocomplete='off'>" +
-      "<label>标题</label><input type='text' name='title' maxlength='60'>" +
-      "<label>正文(支持 Markdown)</label><textarea name='body' rows='8'></textarea>" +
-      "<label>图片(可选,最多 5 张)</label><input type='file' name='files' accept='image/*' multiple>" +
-      "<button type='submit'>发布</button>" +
-      "<div class='sw-status'></div>" +
-      "</form>" +
-      "</details>" +
+      (isUnlocked()
+        ? "<details class='sw-post-form'>" +
+          "<summary>发表文章</summary>" +
+          "<form>" +
+          "<label>标题</label><input type='text' name='title' maxlength='60'>" +
+          "<label>正文(支持 Markdown)</label><textarea name='body' rows='8'></textarea>" +
+          "<label>图片(可选,最多 5 张)</label><input type='file' name='files' accept='image/*' multiple>" +
+          "<button type='submit'>发布</button>" +
+          "<div class='sw-status'></div>" +
+          "</form>" +
+          "</details>"
+        : "<p class='sw-post-locked'>投稿入口已隐藏,请在主页点击【···】输入密码解锁后发表</p>") +
       "<h2>评论</h2>" +
       "<div class='sw-comments'></div>" +
       "<form class='sw-comment-form'>" +
@@ -228,12 +245,13 @@
       });
     }
 
-    widget.querySelector(".sw-post-form form").addEventListener("submit", function (e) {
+    var postForm = widget.querySelector(".sw-post-form form");
+    if (postForm) {
+      postForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var f = e.target;
       var status = f.querySelector(".sw-status");
       var btn = f.querySelector("button");
-      var password = f.querySelector("[name=password]").value.trim();
       var title = f.querySelector("[name=title]").value.trim();
       var body = f.querySelector("[name=body]").value.trim();
       var files = Array.from(f.querySelector("[name=files]").files || []);
@@ -245,9 +263,6 @@
 
       if (!title || !body) {
         return show("请填写标题和正文", true);
-      }
-      if (password !== b64decode(CONFIG.password)) {
-        return show("密码错误", true);
       }
       if (files.length > 5) {
         return show("最多上传 5 张图片", true);
@@ -318,6 +333,7 @@
         }
       })();
     });
+    }
 
     widget.querySelector(".sw-comment-form").addEventListener("submit", function (e) {
       e.preventDefault();
@@ -369,7 +385,6 @@
   var secretToggle = document.querySelector(".secret-toggle");
   if (secretToggle) {
     var secretForm = document.querySelector(".secret-form");
-    var secretLink = document.querySelector(".secret-link");
     var secretMsg = secretForm.querySelector(".secret-msg");
     secretToggle.addEventListener("click", function () {
       secretForm.hidden = !secretForm.hidden;
@@ -380,7 +395,9 @@
       if (value === b64decode(CONFIG.password)) {
         secretForm.hidden = true;
         secretToggle.hidden = true;
-        secretLink.hidden = false;
+        setUnlocked();
+        secretMsg.textContent = "投稿权限已开启,可前往游戏、工作、生活、美食等页面发表文章";
+        secretMsg.className = "secret-msg secret-msg-ok";
       } else {
         secretMsg.textContent = "密码错误";
         secretMsg.className = "secret-msg secret-msg-error";

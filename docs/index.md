@@ -20,7 +20,6 @@ hide:
       <button type="submit">确认</button>
       <span class="secret-msg"></span>
     </form>
-    <a class="secret-link" href="game/" hidden>进入游戏页</a>
   </div>
 </div>
 

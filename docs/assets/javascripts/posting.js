@@ -174,7 +174,19 @@
       "<h2>文章</h2>" +
       "<div class='sw-posts'></div>" +
       (isUnlocked()
-        ? "<details class='sw-post-form'>" +
+        ? "<div class='sw-edit' hidden>" +
+          "<h3>编辑文章</h3>" +
+          "<input type='hidden' name='file'>" +
+          "<input type='hidden' name='date'>" +
+          "<label>标题</label><input type='text' name='title' maxlength='60'>" +
+          "<label>正文(支持 Markdown)</label><textarea name='body' rows='10'></textarea>" +
+          "<div class='sw-edit-actions'>" +
+          "<button type='button' class='sw-edit-save'>保存修改</button>" +
+          "<button type='button' class='sw-edit-cancel'>取消</button>" +
+          "</div>" +
+          "<div class='sw-status'></div>" +
+          "</div>" +
+          "<details class='sw-post-form'>" +
           "<summary>发表文章</summary>" +
           "<form>" +
           "<label>标题</label><input type='text' name='title' maxlength='60'>" +
@@ -207,7 +219,13 @@
         var name = e.file || e.name;
         var title = e.title || name.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/\.md$/, "").replace(/-/g, " ");
         var url = "/" + section + "/posts/" + name.replace(/\.md$/, "") + "/";
-        return "<li><a href='" + url + "'>" + esc(title) + "</a><span class='sw-date'>" + esc(String(e.date || name).slice(0, 10)) + "</span></li>";
+        var admin = isUnlocked()
+          ? "<span class='sw-admin'>" +
+            "<button type='button' data-file='" + esc(name) + "' data-action='edit'>编辑</button>" +
+            "<button type='button' class='sw-del' data-file='" + esc(name) + "' data-action='delete'>删除</button>" +
+            "</span>"
+          : "";
+        return "<li><a href='" + url + "'>" + esc(title) + "</a>" + admin + "<span class='sw-date'>" + esc(String(e.date || name).slice(0, 10)) + "</span></li>";
       }).join("") + "</ul>";
     }
 
@@ -225,14 +243,19 @@
     }
 
     function renderComments(comments) {
-      var list = (comments || []).slice().reverse();
+      var orig = (comments || []).slice();
+      var list = orig.slice().reverse();
       if (!list.length) {
         commentsEl.innerHTML = "<p class='sw-empty'>暂无评论</p>";
         return;
       }
-      commentsEl.innerHTML = list.map(function (c) {
+      commentsEl.innerHTML = list.map(function (c, i) {
+        var del = isUnlocked()
+          ? "<button type='button' class='sw-comment-del' data-orig='" + (orig.length - 1 - i) + "'>删除</button>"
+          : "";
         return "<div class='sw-comment'><span class='sw-comment-name'>" + esc(c.name || "匿名") + "</span>" +
           "<span class='sw-comment-time'>" + esc(String(c.time || "").slice(0, 16)) + "</span>" +
+          del +
           "<p>" + esc(c.text) + "</p></div>";
       }).join("");
     }
@@ -335,6 +358,167 @@
     });
     }
 
+    var editPanel = widget.querySelector(".sw-edit");
+
+    function updateJsonList(path, fn, message) {
+      return getFile(path).then(function (text) {
+        var data = {};
+        try {
+          data = JSON.parse(text);
+        } catch (e) {}
+        fn(data);
+        return saveJsonFile(path, data, message);
+      });
+    }
+
+    function openEdit(file) {
+      getFile(postsDir + "/" + file).then(function (text) {
+        var m = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+        var fm = m ? m[1] : "";
+        var body = m ? m[2] : text;
+        var dateMatch = fm.match(/date:\s*(\S+)/);
+        var date = dateMatch ? dateMatch[1] : today();
+        var titleMatch = body.match(/^#\s+(.+)/);
+        var title = titleMatch ? titleMatch[1].trim() : file.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/\.md$/, "").replace(/-/g, " ");
+        body = body.replace(/^#\s+[^\r\n]*\r?\n?/, "").trim();
+        editPanel.querySelector("[name=file]").value = file;
+        editPanel.querySelector("[name=date]").value = date;
+        editPanel.querySelector("[name=title]").value = title;
+        editPanel.querySelector("[name=body]").value = body;
+        editPanel.hidden = false;
+        editPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        editPanel.querySelector("[name=title]").focus();
+      }).catch(function () {
+        alert("无法加载文章内容");
+      });
+    }
+
+    function deletePost(file) {
+      var path = postsDir + "/" + file;
+      api("GET", path).then(function (meta) {
+        return getFile(path).then(function (text) {
+          var m = text.match(/^#\s+(.+)/m);
+          var title = m ? m[1].trim() : file;
+          if (!confirm("确定删除《" + title + "》吗?删除后不可恢复。")) {
+            throw new Error("__cancelled__");
+          }
+          var assetRe = /!\[[^\]]*\]\(\s*([^)\s]+)\s*\)/g;
+          var am;
+          var deletes = [api("DELETE", path, { message: "delete post: " + file, sha: meta.sha, branch: CONFIG.branch })];
+          while ((am = assetRe.exec(text)) !== null) {
+            var u = am[1];
+            if (u.indexOf("/" + section + "/assets/") !== -1) {
+              (function (assetPath) {
+                deletes.push(api("GET", assetPath).then(function (j) {
+                  return api("DELETE", assetPath, { message: "delete post image", sha: j.sha, branch: CONFIG.branch });
+                }).catch(function () {}));
+              })("docs/" + section + "/assets/" + u.split("/").pop());
+            }
+          }
+          return Promise.all(deletes);
+        });
+      }).then(function () {
+        return updateJsonList(indexJson, function (data) {
+          data.posts = (data.posts || []).filter(function (p) {
+            return (p.file || p.name) !== file;
+          });
+        }, "remove post: " + file);
+      }).then(function () {
+        loadPosts();
+      }).catch(function (err) {
+        if (err.message !== "__cancelled__") {
+          alert("删除失败:" + err.message);
+        }
+      });
+    }
+
+    if (editPanel) {
+      editPanel.querySelector(".sw-edit-save").addEventListener("click", function () {
+        var status = editPanel.querySelector(".sw-status");
+        var btn = editPanel.querySelector(".sw-edit-save");
+        var file = editPanel.querySelector("[name=file]").value;
+        var date = editPanel.querySelector("[name=date]").value;
+        var title = editPanel.querySelector("[name=title]").value.trim();
+        var body = editPanel.querySelector("[name=body]").value.trim();
+        if (!title || !body) {
+          status.textContent = "请填写标题和正文";
+          status.className = "sw-status sw-status-error";
+          return;
+        }
+        btn.disabled = true;
+        status.textContent = "正在保存……";
+        status.className = "sw-status";
+        api("GET", postsDir + "/" + file).then(function (meta) {
+          var md = "---\ndate: " + date + "\n---\n\n# " + title + "\n\n" + body + "\n";
+          return api("PUT", postsDir + "/" + file, {
+            message: "edit post: " + file,
+            content: b64encode(md),
+            sha: meta.sha,
+            branch: CONFIG.branch
+          });
+        }).then(function () {
+          return updateJsonList(indexJson, function (data) {
+            var list = data.posts || [];
+            for (var i = 0; i < list.length; i++) {
+              if ((list[i].file || list[i].name) === file) {
+                list[i].title = title;
+                return;
+              }
+            }
+          }, "update index");
+        }).then(function () {
+          editPanel.hidden = true;
+          status.textContent = "保存成功";
+          loadPosts();
+        }).catch(function (err) {
+          status.textContent = "保存失败:" + err.message;
+          status.className = "sw-status sw-status-error";
+        }).then(function () {
+          btn.disabled = false;
+        });
+      });
+      editPanel.querySelector(".sw-edit-cancel").addEventListener("click", function () {
+        editPanel.hidden = true;
+      });
+    }
+
+    postsEl.addEventListener("click", function (e) {
+      if (!isUnlocked()) {
+        return;
+      }
+      var btn = e.target.closest ? e.target.closest("button[data-action]") : null;
+      if (!btn) {
+        return;
+      }
+      var file = btn.getAttribute("data-file");
+      if (btn.getAttribute("data-action") === "edit") {
+        openEdit(file);
+      } else if (btn.getAttribute("data-action") === "delete") {
+        deletePost(file);
+      }
+    });
+
+    commentsEl.addEventListener("click", function (e) {
+      if (!isUnlocked()) {
+        return;
+      }
+      var btn = e.target.closest ? e.target.closest(".sw-comment-del") : null;
+      if (!btn || !confirm("确定删除这条评论吗?")) {
+        return;
+      }
+      var idx = Number(btn.getAttribute("data-orig"));
+      updateJsonList(commentsJson, function (data) {
+        var list = data.comments || [];
+        if (idx >= 0 && idx < list.length) {
+          list.splice(idx, 1);
+        }
+      }, "remove comment").then(function () {
+        loadComments();
+      }).catch(function (err) {
+        alert("删除失败:" + err.message);
+      });
+    });
+
     widget.querySelector(".sw-comment-form").addEventListener("submit", function (e) {
       e.preventDefault();
       var f = e.target;
@@ -396,7 +580,7 @@
         secretForm.hidden = true;
         secretToggle.hidden = true;
         setUnlocked();
-        secretMsg.textContent = "投稿权限已开启,可前往游戏、工作、生活、美食等页面发表文章";
+        secretMsg.textContent = "管理权限已开启,可前往各板块发表、编辑或删除文章";
         secretMsg.className = "secret-msg secret-msg-ok";
       } else {
         secretMsg.textContent = "密码错误";

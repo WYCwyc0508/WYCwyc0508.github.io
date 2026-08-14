@@ -362,7 +362,8 @@ body {
 }
 
 .sw-post-form form,
-.sw-comment-form {
+.sw-comment-form,
+.sw-edit {
   margin-top: 1rem;
   padding: 1.1rem;
   background: rgba(255, 255, 255, 0.6);
@@ -372,8 +373,17 @@ body {
   box-shadow: 0 8px 24px rgba(79, 70, 229, 0.08);
 }
 
+.sw-edit[hidden] {
+  display: none;
+}
+
+.sw-edit h3 {
+  margin: 0 0 0.4rem 0;
+}
+
 .sw-post-form label,
-.sw-comment-form label {
+.sw-comment-form label,
+.sw-edit label {
   display: block;
   margin: 0.8rem 0 0.2rem 0;
   font-weight: 600;
@@ -383,7 +393,9 @@ body {
 .sw-post-form input[type="password"],
 .sw-post-form textarea,
 .sw-comment-form input[type="text"],
-.sw-comment-form textarea {
+.sw-comment-form textarea,
+.sw-edit input[type="text"],
+.sw-edit textarea {
   width: 100%;
   padding: 0.5rem 0.7rem;
   border: 1px solid var(--md-default-fg-color--lightest);
@@ -397,15 +409,96 @@ body {
 .sw-post-form input:focus,
 .sw-comment-form input:focus,
 .sw-post-form textarea:focus,
-.sw-comment-form textarea:focus {
+.sw-comment-form textarea:focus,
+.sw-edit input:focus,
+.sw-edit textarea:focus {
   outline: none;
   border-color: #8b5cf6;
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
 }
 
 .sw-post-form textarea,
-.sw-comment-form textarea {
+.sw-comment-form textarea,
+.sw-edit textarea {
   resize: vertical;
+}
+
+.sw-edit-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.sw-edit-actions button {
+  margin-top: 1rem;
+  padding: 0.55rem 1.6rem;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #6366f1, #a855f7);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+
+.sw-edit-actions button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(168, 85, 247, 0.35);
+}
+
+.sw-edit-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.sw-edit-actions button.sw-edit-cancel {
+  background: transparent;
+  color: var(--md-default-fg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.sw-edit-actions button.sw-edit-cancel:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.sw-admin {
+  display: inline-flex;
+  gap: 0.4rem;
+}
+
+.sw-admin button,
+.sw-comment-del {
+  padding: 0.2rem 0.7rem;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 999px;
+  background: transparent;
+  color: #5b5fe0;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sw-admin button:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.sw-admin button.sw-del,
+.sw-comment-del {
+  color: #d32f2f;
+  border-color: rgba(211, 47, 47, 0.25);
+}
+
+.sw-admin button.sw-del:hover,
+.sw-comment-del:hover {
+  background: rgba(211, 47, 47, 0.08);
+}
+
+.sw-comment-del {
+  float: right;
+  margin-left: 0.6rem;
 }
 
 .sw-post-form button,

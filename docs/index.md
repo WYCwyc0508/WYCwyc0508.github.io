@@ -11,7 +11,7 @@ hide:
   <p class="hero-sub">记录日常 · 分享生活 · 认真码字</p>
   <div class="hero-actions">
     <a class="hero-btn hero-btn-primary" href="life/">逛逛生活</a>
-    <a class="hero-btn hero-btn-ghost" href="course/">看看课程</a>
+    <a class="hero-btn hero-btn-ghost" href="food/">看看美食</a>
   </div>
   <div class="secret-entry">
     <button class="secret-toggle" type="button" title="···">···</button>

@@ -31,10 +31,6 @@ copyright: Copyright © 2026 钝角 — 用 <a href="https://www.mkdocs.org">MkD
 
 nav:
   - 主页: index.md
-  - 课程:
-      - 课程首页: course/index.md
-      - 经济法: course/jingjifa/index.md
-      - 宪法: course/xianfa/index.md
   - 美食: food/index.md
   - 游戏: game/index.md
   - 工作: about/index.md
